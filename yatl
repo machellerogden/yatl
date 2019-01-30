@@ -3,7 +3,10 @@
 const { readFileSync } = require('fs');
 const { inspect } = require('util');
 
-const read = require('./read');
+const read = process.env.YATL_JSON
+    ? JSON.parse
+    : require('./read');
+
 const write = JSON.stringify;
 
 const slurp = filepath => readFileSync(filepath, 'utf8');
@@ -21,7 +24,6 @@ const env = {
     '>': (a, b) => a > b,
     '>=': (a, b) => a >= b,
     '<=': (a, b) => a <= b,
-    'cons': (a, b) => [ a, ...b ],
     throw: e => { throw e },
     print,
     pprint,
@@ -102,7 +104,7 @@ function evaluate(ast, scope) {
             return ast[1];
         }
 
-        if (ast[0] === '$') {
+        if (ast[0] === '.-') {
             const form = resolve(ast.slice(1), scope);
             const [ object, member ] = form;
             return 2 in form
@@ -169,11 +171,13 @@ function evaluate(ast, scope) {
     }
 }
 
-if (process.argv[2]) {
-    env.load(process.argv[2]);
-} else {
-    require('repl').start({
-        eval: (cmd, context, filename, callback) => callback(null, evaluate(read(cmd), env)),
-        writer: write
-    });
+if (require.main === module) {
+    if (process.argv[2]) {
+        env.load(process.argv[2]);
+    } else {
+        require('repl').start({
+            eval: (cmd, context, filename, callback) => callback(null, evaluate(read(cmd), env)),
+            writer: write
+        });
+    }
 }

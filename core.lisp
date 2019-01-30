@@ -8,26 +8,26 @@
 
 (def get (fn [a b]
   (if (contains? a b)
-    ($ a b)
+    (.- a b)
     nil)))
 
 (def set (fn [a b c]
   (do
-    ($ a b c)
+    (.- a b c)
     a)))
 
 (def nth get)
 
 (def first (fn [a]
-  (if (> ($ a `length) 0)
+  (if (> (.- a `length) 0)
     (nth a 0)
     nil)))
 
 (def last (fn [a]
-  (nth a (- ($ a `length) 1))))
+  (nth a (- (.- a `length) 1))))
 
 (def count (fn [a]
-  ($ a `length)))
+  (.- a `length)))
 
 (def empty? (fn [a]
   (if (list? a)
@@ -41,6 +41,12 @@
       (get a `length)))))
 
 (def rest (fn [a] (slice a 1)))
+
+(def cons (fn [a b]
+  (let [r (slice b 0)]
+    (do
+      (.unshift r a)
+      r))))
 
 (def when ~(fn
   [test & body]

@@ -7,7 +7,9 @@ const { EOL } = require('os');
 
 const isDefined = v => v != null;
 const isAlpha = v => isDefined(v) && /[a-z]/i.test(v);
-const isSingle = v => [ '.', '$' ].includes(v);
+const isDash = v => '-' === v;
+const isDot = v => '.' === v;
+const isDotForm = v => isDot(v) || isDash(v);
 const isString = v => isDefined(v) && /[a-z\?!\-\/"\.]/i.test(v);
 const isStringQuote = v => v === '"';
 const isQuote = v => v === '`';
@@ -63,8 +65,21 @@ function read(input) {
             continue;
         }
 
-        if (isSingle(chars[i])) {
-            add(chars[next()]);
+        if (isDot(chars[i])) {
+            if (isDotForm(chars[i + 1])) {
+                add(chars[next()] + chars[next()]);
+            } else {
+                add(chars[next()]);
+            }
+            continue;
+        }
+
+        if (isDash(chars[i])) {
+            let value = chars[next()];
+            if (isAlpha(chars[i])) {
+                while (isString(chars[i]) || isNumber(chars[i])) value += chars[next()];
+            }
+            add(value);
             continue;
         }
 
@@ -116,4 +131,15 @@ function read(input) {
     }
 
     return [ 'do', ...result ];
+}
+
+if (require.main === module) {
+    if (process.argv[2]) {
+        console.log(JSON.stringify(read(require('fs').readFileSync(process.argv[2], 'utf8')), null, 4));
+    } else {
+        require('repl').start({
+            eval: (cmd, context, filename, callback) => callback(null, read(cmd)),
+            writer: JSON.stringify
+        });
+    }
 }

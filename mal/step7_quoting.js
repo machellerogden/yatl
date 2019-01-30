@@ -3,7 +3,9 @@
 const { readFileSync } = require('fs');
 const { inspect } = require('util');
 
-const read = require('../read');
+const read = process.env.YATL_JSON
+    ? JSON.parse
+    : require('../read');
 const write = JSON.stringify;
 
 const slurp = filepath => readFileSync(filepath, 'utf8');

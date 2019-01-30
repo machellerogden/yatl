@@ -3,14 +3,22 @@
   "version": "0.0.0",
   "description": "yet another toy lisp",
   "main": "index.js",
+  "bin": {
+    "yatl": "./yatl",
+    "yatl-read": "./read"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:json && npm run test:lisp",
+    "test:json": "YATL_JSON=1 ./yatl ./test.json",
+    "test:lisp": "./yatl ./test.lisp"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/machellerogden/yatl.git"
   },
-  "keywords": [],
+  "keywords": [
+    "lisp"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {

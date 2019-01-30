@@ -33,8 +33,12 @@
 (print (= (.stringify js/JSON (cons 1 `(2 3)))
           (.stringify js/JSON `(1 2 3))))
 
-(when (= 1 1)
-  (print true))
+(print (= (when
+            (= 1 1)
+            2)
+          2))
 
-(when (= 1 2)
-  (print false))
+(print (= (when
+            (= 1 2)
+            2)
+          nil))

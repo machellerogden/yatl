@@ -3,7 +3,9 @@
 const { readFileSync } = require('fs');
 const { inspect } = require('util');
 
-const read = require('../read');
+const read = process.env.YATL_JSON
+    ? JSON.parse
+    : require('../read');
 const write = JSON.stringify;
 
 const slurp = filepath => readFileSync(filepath, 'utf8');
@@ -21,7 +23,6 @@ const env = {
     '>': (a, b) => a > b,
     '>=': (a, b) => a >= b,
     '<=': (a, b) => a <= b,
-    'cons': (a, b) => [ a, ...b ],
     throw: e => { throw e },
     print,
     pprint,
