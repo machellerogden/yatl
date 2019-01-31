@@ -103,7 +103,7 @@ function evaluate(ast, scope) {
             return ast[1];
         }
 
-        if (ast[0] === '$') {
+        if (ast[0] === '.-') {
             const form = resolve(ast.slice(1), scope);
             const [ object, member ] = form;
             return 2 in form
