@@ -65,10 +65,22 @@
                     [".", "unshift", "r", "a"],
                     "r"]]]],
 
-    ["def", "when",
+    ["def", "defmacro",
         ["~",
-            ["fn", ["test", "&", "body"],
+            ["fn", ["n", "a", "b"],
                 ["list",
-                    ["`", "if"],
-                    "test",
-                    ["cons", ["`", "do"], "body"]]]]]]
+                    ["`", "def"],
+                    "n",
+                    ["list",
+                        ["`", "~"],
+                        ["list",
+                            ["`", "fn"],
+                            "a",
+                            "b"]]]]]],
+
+    ["defmacro", "when",
+        ["test", "&", "body"],
+        ["list",
+            ["`", "if"],
+            "test",
+            ["cons", ["`", "do"], "body"]]]]

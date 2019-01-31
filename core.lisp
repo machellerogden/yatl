@@ -48,6 +48,14 @@
       (.unshift r a)
       r))))
 
-(def when ~(fn
+(def defmacro ~(fn
+  [n a b]
+  (list `def n (list `~ (list `fn a b)))))
+
+;(def when ~(fn
+;  [test & body]
+;  (list `if test (cons `do body))))
+
+(defmacro when
   [test & body]
-  (list `if test (cons `do body))))
+  (list `if test (cons `do body)))

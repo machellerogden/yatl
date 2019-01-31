@@ -54,14 +54,19 @@ function read(input) {
         }
 
         if (isQuote(chars[i])) {
-            enter([ '`' ]);
+            enter([ chars[i] ]);
             current().$quoted = true;
             continue;
         }
 
         if (isUnquote(chars[i])) {
-            enter([ '~' ]);
-            current().$unquoted = true;
+            if (isQuote(chars[i - 1])) { 
+                add(chars[next()]);
+                exit();
+            } else {
+                enter([ chars[i] ]);
+                current().$unquoted = true;
+            }
             continue;
         }
 
