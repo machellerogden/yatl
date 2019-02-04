@@ -55,3 +55,10 @@
             (= 1 2)
             2)
           nil))
+
+(print "when - does not evaluate given exprs when given condition evaluates to false")
+(print (= (if
+            false
+            (do (print "never!")
+              2))
+          nil))
