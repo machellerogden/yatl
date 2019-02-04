@@ -25,8 +25,9 @@ function resolve(ast, scope) {
 }
 
 function evaluate(ast, scope) {
-    if (!Array.isArray(ast))
+    if (!Array.isArray(ast)) {
         return resolve(ast, scope);
+    }
 
     const [ head, ...rest ] = resolve(ast, scope);
     return head(...rest);

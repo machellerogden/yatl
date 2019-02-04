@@ -19,16 +19,10 @@ const env = {
 
 function resolve(ast, scope, expressions) {
     if (expressions) {
-        scope = Object.create(scope);
-        for (let i = 0; i < ast.length; i++) {
-            if (ast[i] === '&') {
-                scope[ast[i + 1]] = expressions.slice(i);
-                break;
-            } else {
-                scope[ast[i]] = expressions[i];
-            }
-        }
-        return scope;
+        return expressions.reduce((newScope, exp, i) => {
+            newScope[ast[i]] = exp;
+            return newScope;
+        }, Object.create(scope));
     }
 
     if (Array.isArray(ast)) {

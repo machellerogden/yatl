@@ -13,7 +13,7 @@ const isDotForm = v => isDot(v) || isDash(v);
 const isString = v => isDefined(v) && /[a-z\?!\-\/"\.]/i.test(v);
 const isStringQuote = v => v === '"';
 const isQuote = v => v === '`';
-const isUnquote = v => v === '~';
+const isMacro = v => v === '~';
 const isNumber = v => isDefined(v) && /[0-9]/i.test(v);
 const isListStart = v => [ '(', '[' ].includes(v);
 const isListEnd = v => [ ')', ']' ].includes(v);
@@ -37,7 +37,7 @@ function read(input) {
     const exit = () => (next(), stack.pop());
 
     const exitQuote = () => current().$quoted && stack.pop();
-    const exitUnquote = () => current().$unquoted && stack.pop();
+    const exitMacro = () => current().$macro && stack.pop();
 
     while (i < chars.length) {
 
@@ -49,7 +49,7 @@ function read(input) {
         if (isListEnd(chars[i])) {
             exit();
             exitQuote();
-            exitUnquote();
+            exitMacro();
             continue;
         }
 
@@ -59,13 +59,13 @@ function read(input) {
             continue;
         }
 
-        if (isUnquote(chars[i])) {
+        if (isMacro(chars[i])) {
             if (isQuote(chars[i - 1])) { 
                 add(chars[next()]);
                 exit();
             } else {
                 enter([ chars[i] ]);
-                current().$unquoted = true;
+                current().$macro = true;
             }
             continue;
         }
@@ -128,7 +128,7 @@ function read(input) {
                 add(value);
             }
             exitQuote();
-            exitUnquote();
+            exitMacro();
             continue;
         }
 
