@@ -13,7 +13,8 @@ const env = {
     '<': (a, b) => a < b,
     '>': (a, b) => a > b,
     '>=': (a, b) => a >= b,
-    '<=': (a, b) => a <= b
+    '<=': (a, b) => a <= b,
+    '%': (a, b) => a % b
 };
 
 function resolve(ast, scope) {

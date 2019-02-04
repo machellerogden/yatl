@@ -23,6 +23,7 @@ const env = {
     '>': (a, b) => a > b,
     '>=': (a, b) => a >= b,
     '<=': (a, b) => a <= b,
+    '%': (a, b) => a % b,
     throw: e => { throw e },
     print,
     pprint,
