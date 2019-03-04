@@ -12,7 +12,7 @@ function evaluate(ast, scope) {
         return ast;
     }
 
-    const [ head, ...rest ] = ast.map(f => evaluate(f, scope));
+    const [ head, ...rest ] = ast.map(el => evaluate(el, scope));
     return scope[head](...rest);
 }
 
