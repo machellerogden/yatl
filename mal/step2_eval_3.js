@@ -19,7 +19,7 @@ const env = {
 
 function resolve(ast, scope) {
     if (Array.isArray(ast)) {
-        return ast.map((...args) => evaluate(args[0], scope));
+        return ast.map(el => evaluate(el, scope));
     }
 
     return scope[ast] || ast;
