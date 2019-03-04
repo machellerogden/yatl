@@ -8,11 +8,7 @@ const env = {
 };
 
 function evaluate(ast, scope) {
-    if (!Array.isArray(ast)) {
-        return ast;
-    }
-
-    const [ head, ...rest ] = ast.map(f => evaluate(f, scope));
+    const [ head, ...rest ] = ast;
     return scope[head](...rest);
 }
 
